@@ -1,7 +1,7 @@
 {
     "appid": "84f9ba36-2386-4d95-8c7e-b1b9593ac4d6",
     "name": "Forcepoint",
-    "description": "This app integgrates with Forcepoint Firewall",
+    "description": "This app integrates with Forcepoint Firewall",
     "type": "network security",
     "product_vendor": "Forcepoint",
     "logo": "logo_forcepoint.svg",

@@ -31,6 +31,7 @@ class ForcepointConnector(BaseConnector):
         self._force_port = config.get('base_port')
         self._force_version = config.get('base_version')
         self._force_auth_key = config.get('auth_key')
+        self._verify = config.get(phantom.APP_JSON_VERIFY, False)
 
         self.url = 'http://' + self._force_url + ':' + self._force_port + '/' + self._force_version
 
@@ -38,14 +39,17 @@ class ForcepointConnector(BaseConnector):
 
         self.h = {'accept': 'application/json', 'content-type': 'application/json'}
         login_params = {"authenticationkey": self._force_auth_key}
-        r = session.post(
-            self.url + '/login',
-            data=json.dumps(login_params),
-            headers=self.h)
 
-        r.raise_for_status()
+        try:
+            r = session.post(
+                self.url + '/login',
+                data=json.dumps(login_params),
+                headers=self.h,
+                verify=self._verify)
+        except Exception as e:
+            return RetVal(action_result.set_status(phantom.APP_ERROR, u"Error Connecting to server. Details: {0}".format(str(e))), None)
 
-        return RetVal(phantom.APP_SUCCESS, session)
+        return RetVal(action_result.set_status(phantom.APP_SUCCESS, r))
 
     def _logout(self, action_result, session):
 
@@ -64,7 +68,7 @@ class ForcepointConnector(BaseConnector):
         ret_val, session = self._make_rest_call(action_result)
 
         if (phantom.is_fail(ret_val)):
-            self.save_progress("Test Connectivity Failed. Error: {0}".format(action_result.get_message()))
+            self.save_progress("Test Connectivity Failed")
             return action_result.get_status()
 
         self._logout(action_result, session)

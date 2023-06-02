@@ -1,12 +1,12 @@
 {
     "appid": "84f9ba36-2386-4d95-8c7e-b1b9593ac4d6",
-    "name": "Forcepoint Firewall",
+    "name": "Forcepoint",
     "description": "This app integrates with Forcepoint Firewall",
     "type": "network security",
     "product_vendor": "Forcepoint",
     "logo": "logo_forcepoint.svg",
     "logo_dark": "logo_forcepoint_dark.svg",
-    "product_name": "NGFW",
+    "product_name": "Forcepoint Next Gen Firewall",
     "product_version_regex": ".*",
     "python_version": "3",
     "publisher": "Martin Ohl",
@@ -20,7 +20,7 @@
     "utctime_updated": "2018-11-02T21:56:43.000000Z",
     "package_name": "phantom_forcepoint",
     "main_module": "forcepoint_connector.py",
-    "min_phantom_version": "4.0.1068",
+    "min_phantom_version": "5.5.0",
     "app_wizard_version": "1.0.0",
     "configuration": {
         "base_url": {
@@ -64,7 +64,7 @@
             "action": "test connectivity",
             "identifier": "test_connectivity",
             "description": "Validate the asset configuration for connectivity using supplied configuration",
-            "verbose": "",
+            "verbose": "Tests api cpnnectivity by making a login/logout call to SMC api.",
             "type": "test",
             "read_only": true,
             "parameters": {},
@@ -75,7 +75,7 @@
             "action": "block ip",
             "identifier": "block_ip",
             "description": "Block an IP",
-            "verbose": "",
+            "verbose": "Updates Bad IP list.",
             "type": "contain",
             "read_only": false,
             "parameters": {

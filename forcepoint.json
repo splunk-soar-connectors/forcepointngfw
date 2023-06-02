@@ -16,7 +16,7 @@
         }
     ],
     "license": "Copyright Martin Ohl 2017-2018",
-    "app_version": "1.0.5",
+    "app_version": "1.0.6",
     "utctime_updated": "2018-11-02T21:56:43.000000Z",
     "package_name": "phantom_forcepoint",
     "main_module": "forcepoint_connector.py",

@@ -6,7 +6,7 @@
     "product_vendor": "Forcepoint",
     "logo": "logo_forcepoint.svg",
     "logo_dark": "logo_forcepoint_dark.svg",
-    "product_name": "Forcepoint Next Gen Firewall",
+    "product_name": "Forcepoint NGFW",
     "product_version_regex": ".*",
     "python_version": "3",
     "publisher": "Martin Ohl",

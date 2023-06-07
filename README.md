@@ -2,7 +2,7 @@
 # Forcepoint
 
 Publisher: Martin Ohl  
-Connector Version: 1.0.6  
+Connector Version: 2.0.0  
 Product Vendor: Forcepoint  
 Product Name: Forcepoint NGFW  
 Product Version Supported (regex): ".\*"  
@@ -80,7 +80,7 @@ The below configuration variables are required for this Connector to operate.  T
 VARIABLE | REQUIRED | TYPE | DESCRIPTION
 -------- | -------- | ---- | -----------
 **base_url** |  required  | string | SMC IP address or hostname
-**verify_server_cert** |  required  | boolean | Verify server certificate
+**verify_server_cert** |  optional  | boolean | Verify server certificate
 **base_port** |  required  | string | SMC API Port
 **auth_key** |  required  | password | SMC API Auth Key
 **base_version** |  required  | string | SMC Version (e.g. 6.2)
@@ -120,11 +120,11 @@ PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 #### Action Output
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
+action_result.status | string |  |   success  failed 
+action_result.parameter.group | string |  |  
 action_result.parameter.ip | string |  `ip`  |  
-action_result.status | string |  |  
+action_result.data | string |  |  
+action_result.summary | string |  |  
 action_result.message | string |  |  
 summary.total_objects | numeric |  |  
 summary.total_objects_successful | numeric |  |  
-action_result.data | string |  |  
-action_result.summary | string |  |  
-action_result.parameter.group | string |  |  

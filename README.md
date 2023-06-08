@@ -11,7 +11,7 @@ Minimum Product Version: 5.5.0
 This app integrates with Forcepoint Firewall
 
 [comment]: # " File: README.md"
-[comment]: # "  Copyright (c) Martin Ohl 2021-2023"
+[comment]: # "  Copyright Martin Ohl 2021-2023"
 [comment]: # ""
 [comment]: # "Licensed under the Apache License, Version 2.0 (the 'License');"
 [comment]: # "you may not use this file except in compliance with the License."

@@ -79,9 +79,13 @@ class ForcepointConnector(BaseConnector):
     def _handle_block_ip(self, param):
 
         action_result = self.add_action_result(ActionResult(dict(param)))
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
         self.save_progress("Connecting to the Forcepoint SMC")
         ret_val, session = self._make_rest_call(action_result)
-        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
+
+        if (phantom.is_fail(ret_val)):
+            self.save_progress("Error creating SMC Session!")
+            return action_result.get_status()
 
         try:
            group = param['group']
@@ -130,7 +134,6 @@ class ForcepointConnector(BaseConnector):
         except:
            self.set_status(phantom.APP_ERROR, "Couldn't update the IP List")
            self.append_to_message("Couldn't update the Forcepoint SMC")
-           return self.get_status()
            action_result.set_status(phantom.APP_ERROR, "Couldn't updat ethe Forcepoint SMC")
            return action_result.get_status()
 

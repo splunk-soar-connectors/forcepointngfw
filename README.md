@@ -108,7 +108,7 @@ Validate the asset configuration for connectivity using supplied configuration
 Type: **test**  
 Read only: **True**
 
-Tests api cpnnectivity by making a login/logout call to SMC api.
+Tests api connectivity by making a login/logout call to SMC api.
 
 #### Action Parameters
 No parameters are required for this action

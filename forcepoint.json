@@ -60,7 +60,7 @@
             "action": "test connectivity",
             "identifier": "test_connectivity",
             "description": "Validate the asset configuration for connectivity using supplied configuration",
-            "verbose": "Tests api cpnnectivity by making a login/logout call to SMC api.",
+            "verbose": "Tests api connectivity by making a login/logout call to SMC api.",
             "type": "test",
             "read_only": true,
             "parameters": {},

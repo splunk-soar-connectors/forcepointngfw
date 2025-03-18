@@ -1,6 +1,6 @@
 # File: forcepoint_connector.py
 #
-# Copyright Martin Ohl 2021-2023
+# Copyright Martin Ohl 2021-2025
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@
 import json
 
 import phantom.app as phantom
+
 # Usage of the consts file is recommended
 # from forcepoint_consts import *
 import requests
@@ -31,59 +32,49 @@ class RetVal(tuple):
 
 
 class ForcepointConnector(BaseConnector):
-
     def __init__(self):
-
-        super(ForcepointConnector, self).__init__()
+        super().__init__()
 
         self._state = None
         self._base_url = None
 
     def _make_rest_call(self, action_result):
-
-        self.save_progress('Creating Forcepoint API session...')
+        self.save_progress("Creating Forcepoint API session...")
         config = self.get_config()
-        self._force_url = config.get('base_url')
-        self._force_port = config.get('base_port')
-        self._force_version = config.get('base_version')
-        self._force_auth_key = config.get('auth_key')
+        self._force_url = config.get("base_url")
+        self._force_port = config.get("base_port")
+        self._force_version = config.get("base_version")
+        self._force_auth_key = config.get("auth_key")
         self._verify = config.get(phantom.APP_JSON_VERIFY, False)
 
-        self.url = 'http://' + self._force_url + ':' + self._force_port + '/' + self._force_version
+        self.url = "http://" + self._force_url + ":" + self._force_port + "/" + self._force_version
 
         session = requests.session()
 
-        self.h = {'accept': 'application/json', 'content-type': 'application/json'}
+        self.h = {"accept": "application/json", "content-type": "application/json"}
         login_params = {"authenticationkey": self._force_auth_key}
 
         try:
-            r = session.post(
-                self.url + '/login',
-                data=json.dumps(login_params),
-                headers=self.h,
-                verify=self._verify)
+            r = session.post(self.url + "/login", data=json.dumps(login_params), headers=self.h, verify=self._verify)
         except Exception as e:
-            return RetVal(action_result.set_status(phantom.APP_ERROR, u"Error Connecting to server. Details: {0}".format(str(e))), None)
+            return RetVal(action_result.set_status(phantom.APP_ERROR, f"Error Connecting to server. Details: {e!s}"), None)
 
         return RetVal(action_result.set_status(phantom.APP_SUCCESS, r))
 
     def _logout(self, action_result, session):
-
-        r = session.put(
-            self.url + '/logout')
+        r = session.put(self.url + "/logout")
 
         r.raise_for_status()
 
         return RetVal(phantom.APP_SUCCESS, r)
 
     def _handle_test_connectivity(self, param):
-
         action_result = self.add_action_result(ActionResult(dict(param)))
 
         self.save_progress("Connecting to the Forcepoint SMC")
         ret_val, session = self._make_rest_call(action_result)
 
-        if (phantom.is_fail(ret_val)):
+        if phantom.is_fail(ret_val):
             self.save_progress("Test Connectivity Failed")
             return action_result.get_status()
 
@@ -93,70 +84,66 @@ class ForcepointConnector(BaseConnector):
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_block_ip(self, param):
-
         action_result = self.add_action_result(ActionResult(dict(param)))
-        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
+        self.save_progress(f"In action handler for: {self.get_action_identifier()}")
         self.save_progress("Connecting to the Forcepoint SMC")
         ret_val, session = self._make_rest_call(action_result)
 
-        if (phantom.is_fail(ret_val)):
+        if phantom.is_fail(ret_val):
             self.save_progress("Error creating SMC Session!")
             return action_result.get_status()
 
         try:
-           group = param['group']
-           new_list = {"name": group, "comment": "BadIPList from Phantom"}
-           new_list_content = {"ip": [param['ip']]}
+            group = param["group"]
+            new_list = {"name": group, "comment": "BadIPList from Phantom"}
+            new_list_content = {"ip": [param["ip"]]}
 
-           r = session.get(self.url + "/elements/ip_list", data=json.dumps(new_list), headers=self.h)
-           r.raise_for_status()
-           ip_lists = r.json()["result"]
-           for entry in ip_lists:
-              if entry["name"] == new_list["name"]:
-                 elem_url = entry["href"]
-                 break
-           else:
-              r = session.post(self.url + "/elements/ip_list", data=json.dumps(new_list), headers=self.h)
-              r.raise_for_status()
-              elem_url = r.headers["location"]
+            r = session.get(self.url + "/elements/ip_list", data=json.dumps(new_list), headers=self.h)
+            r.raise_for_status()
+            ip_lists = r.json()["result"]
+            for entry in ip_lists:
+                if entry["name"] == new_list["name"]:
+                    elem_url = entry["href"]
+                    break
+            else:
+                r = session.post(self.url + "/elements/ip_list", data=json.dumps(new_list), headers=self.h)
+                r.raise_for_status()
+                elem_url = r.headers["location"]
 
-           r = session.get(elem_url, headers=self.h)
-           r.raise_for_status()
-           elem_content_url = [entry["href"]
-                              for entry in r.json()["link"]
-                              if entry["rel"] == "ip_address_list"][0]
+            r = session.get(elem_url, headers=self.h)
+            r.raise_for_status()
+            elem_content_url = next(entry["href"] for entry in r.json()["link"] if entry["rel"] == "ip_address_list")
 
-           r = session.get(elem_content_url, headers=self.h)
-           r.raise_for_status()
-           list_content = r.json()
-           a = json.dumps(list_content)
-           check = json.loads(a)
-           new_list_content = json.loads(a)
-           new_list_content['ip'].append(param['ip'])
+            r = session.get(elem_content_url, headers=self.h)
+            r.raise_for_status()
+            list_content = r.json()
+            a = json.dumps(list_content)
+            check = json.loads(a)
+            new_list_content = json.loads(a)
+            new_list_content["ip"].append(param["ip"])
 
-           for ip in check['ip']:
-              if ip == param['ip']:
-                 print("This IP is already in the SMC IP-List")
-                 self._logout(action_result, session)
-                 r.raise_for_status()
-                 return action_result.set_status(phantom.APP_SUCCESS)
-              else:
-                 pass
+            for ip in check["ip"]:
+                if ip == param["ip"]:
+                    print("This IP is already in the SMC IP-List")
+                    self._logout(action_result, session)
+                    r.raise_for_status()
+                    return action_result.set_status(phantom.APP_SUCCESS)
+                else:
+                    pass
 
-           r = session.post(elem_content_url, data=json.dumps(new_list_content), headers=self.h)
-           r.raise_for_status()
-           self._logout(action_result, session)
+            r = session.post(elem_content_url, data=json.dumps(new_list_content), headers=self.h)
+            r.raise_for_status()
+            self._logout(action_result, session)
 
         except:
-           self.set_status(phantom.APP_ERROR, "Couldn't update the IP List")
-           self.append_to_message("Couldn't update the Forcepoint SMC")
-           action_result.set_status(phantom.APP_ERROR, "Couldn't updat ethe Forcepoint SMC")
-           return action_result.get_status()
+            self.set_status(phantom.APP_ERROR, "Couldn't update the IP List")
+            self.append_to_message("Couldn't update the Forcepoint SMC")
+            action_result.set_status(phantom.APP_ERROR, "Couldn't updat ethe Forcepoint SMC")
+            return action_result.get_status()
 
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def handle_action(self, param):
-
         ret_val = phantom.APP_SUCCESS
 
         # Get the action that we are supposed to execute for this App Run
@@ -164,16 +151,15 @@ class ForcepointConnector(BaseConnector):
 
         self.debug_print("action_id", self.get_action_identifier())
 
-        if action_id == 'test_connectivity':
+        if action_id == "test_connectivity":
             ret_val = self._handle_test_connectivity(param)
 
-        elif action_id == 'block_ip':
+        elif action_id == "block_ip":
             ret_val = self._handle_block_ip(param)
 
         return ret_val
 
     def initialize(self):
-
         # Load the state in initialize, use it to store data
         # that needs to be accessed across actions
         self._state = self.load_state()
@@ -194,20 +180,19 @@ class ForcepointConnector(BaseConnector):
         return phantom.APP_SUCCESS
 
     def finalize(self):
-
         # Save the state, this data is saved accross actions and app upgrades
         self.save_state(self._state)
         return phantom.APP_SUCCESS
 
 
-if __name__ == '__main__':
-
+if __name__ == "__main__":
     import sys
 
     import pudb
+
     pudb.set_trace()
 
-    if (len(sys.argv) < 2):
+    if len(sys.argv) < 2:
         print("No test json specified as input")
         exit(0)
 

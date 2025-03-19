@@ -1,5 +1,5 @@
 <!-- File: readme.html
-  Copyright Martin Ohl 2021-2023
+  Copyright Martin Ohl 2021-2025
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -30,31 +30,41 @@ and limitations under the License.
   </thead>
   <tbody>
     <tr>
-      <td><strong>base_url</strong></td>
+      <td>
+        <strong>base_url</strong>
+      </td>
       <td>required</td>
       <td>string</td>
       <td>SMC IP address or hostname</td>
     </tr>
     <tr>
-      <td><strong>verify_server_cert</strong></td>
+      <td>
+        <strong>verify_server_cert</strong>
+      </td>
       <td>required</td>
       <td>boolean</td>
       <td>Verify server certificate</td>
     </tr>
     <tr>
-      <td><strong>base_port</strong></td>
+      <td>
+        <strong>base_port</strong>
+      </td>
       <td>required</td>
       <td>string</td>
       <td>SMC API Port</td>
     </tr>
     <tr>
-      <td><strong>auth_key</strong></td>
+      <td>
+        <strong>auth_key</strong>
+      </td>
       <td>required</td>
       <td>password</td>
       <td>SMC API Auth Key</td>
     </tr>
     <tr>
-      <td><strong>base_version</strong></td>
+      <td>
+        <strong>base_version</strong>
+      </td>
       <td>required</td>
       <td>string</td>
       <td>SMC Version (e.g. 6.2)</td>
@@ -64,24 +74,29 @@ and limitations under the License.
 <h3 id="supported-actions">Supported Actions</h3>
 <p>
   <a href="#action-test-connectivity">test connectivity</a> - Validate the asset
-  configuration for connectivity using supplied configuration<br /><a
-    href="#action-block-ip"
-    >block ip</a
-  >
+  configuration for connectivity using supplied configuration
+  <br />
+  <a href="#action-block-ip">block ip</a>
   - Block an IP
 </p>
 <h2 id="action-test-connectivity-">action: &#39;test connectivity&#39;</h2>
+<p>Validate the asset configuration for connectivity using supplied configuration</p>
 <p>
-  Validate the asset configuration for connectivity using supplied configuration
+  Type: <strong>test</strong>
+  <br />
+  Read only: <strong>True</strong>
 </p>
-<p>Type: <strong>test</strong><br />Read only: <strong>True</strong></p>
 <h4 id="action-parameters">Action Parameters</h4>
 <p>No parameters are required for this action</p>
 <h4 id="action-output">Action Output</h4>
 <p>No Output</p>
 <h2 id="action-block-ip-">action: &#39;block ip&#39;</h2>
 <p>Block an IP</p>
-<p>Type: <strong>contain</strong><br />Read only: <strong>False</strong></p>
+<p>
+  Type: <strong>contain</strong>
+  <br />
+  Read only: <strong>False</strong>
+</p>
 <h4 id="action-parameters">Action Parameters</h4>
 <table>
   <thead>
@@ -95,14 +110,20 @@ and limitations under the License.
   </thead>
   <tbody>
     <tr>
-      <td><strong>ip</strong></td>
+      <td>
+        <strong>ip</strong>
+      </td>
       <td>required</td>
       <td>IP to block</td>
       <td>string</td>
-      <td><code>ip</code></td>
+      <td>
+        <code>ip</code>
+      </td>
     </tr>
     <tr>
-      <td><strong>group</strong></td>
+      <td>
+        <strong>group</strong>
+      </td>
       <td>required</td>
       <td>Group Name to add the IP</td>
       <td>string</td>
@@ -123,7 +144,9 @@ and limitations under the License.
     <tr>
       <td>action_result.parameter.ip</td>
       <td>string</td>
-      <td><code>ip</code></td>
+      <td>
+        <code>ip</code>
+      </td>
     </tr>
     <tr>
       <td>action_result.status</td>

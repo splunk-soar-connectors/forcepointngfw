@@ -1,12 +1,17 @@
 # Forcepoint
 
-Publisher: Martin Ohl \
-Connector Version: 2.0.0 \
-Product Vendor: Forcepoint \
-Product Name: Forcepoint NGFW \
+Publisher: Martin Ohl <br>
+Connector Version: 2.0.0 <br>
+Product Vendor: Forcepoint <br>
+Product Name: Forcepoint NGFW <br>
 Minimum Product Version: 5.5.0
 
 This app integrates with Forcepoint Firewall
+
+The connector sends the SMC API authentication key only over HTTPS. TLS certificate verification
+is enabled by default; install a CA-issued certificate on the SMC or add its issuing certificate
+to the SOAR trust store before connecting. Disable verification only when an administrator has
+explicitly accepted the man-in-the-middle risk.
 
 ### Configuration variables
 
@@ -22,14 +27,14 @@ VARIABLE | REQUIRED | TYPE | DESCRIPTION
 
 ### Supported Actions
 
-[test connectivity](#action-test-connectivity) - Validate the asset configuration for connectivity using supplied configuration \
+[test connectivity](#action-test-connectivity) - Validate the asset configuration for connectivity using supplied configuration <br>
 [block ip](#action-block-ip) - Block an IP
 
 ## action: 'test connectivity'
 
 Validate the asset configuration for connectivity using supplied configuration
 
-Type: **test** \
+Type: **test** <br>
 Read only: **True**
 
 Tests api connectivity by making a login/logout call to SMC api.
@@ -46,7 +51,7 @@ No Output
 
 Block an IP
 
-Type: **contain** \
+Type: **contain** <br>
 Read only: **False**
 
 Updates Bad IP list.
@@ -75,7 +80,7 @@ ______________________________________________________________________
 
 Auto-generated Splunk SOAR Connector documentation.
 
-Copyright 2025 Splunk Inc.
+Copyright 2026 Splunk Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

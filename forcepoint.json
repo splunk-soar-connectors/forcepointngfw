@@ -8,14 +8,14 @@
     "logo_dark": "logo_forcepoint_dark.svg",
     "product_name": "Forcepoint NGFW",
     "product_version_regex": ".*",
-    "python_version": "3",
+    "python_version": "3.9, 3.13",
     "publisher": "Martin Ohl",
     "contributors": [
         {
             "name": "Nikhilesh Chaudhari"
         }
     ],
-    "license": "Copyright Martin Ohl 2021-2025",
+    "license": "Copyright Martin Ohl 2021-2026",
     "app_version": "2.0.0",
     "utctime_updated": "2018-11-02T21:56:43.000000Z",
     "package_name": "phantom_forcepoint",
@@ -142,5 +142,11 @@
             },
             "versions": "EQ(*)"
         }
-    ]
+    ],
+    "pip39_dependencies": {
+        "wheel": []
+    },
+    "pip313_dependencies": {
+        "wheel": []
+    }
 }

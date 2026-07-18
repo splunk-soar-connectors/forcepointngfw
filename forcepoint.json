@@ -34,7 +34,7 @@
             "data_type": "boolean",
             "description": "Verify server certificate",
             "order": 1,
-            "default": false
+            "default": true
         },
         "base_port": {
             "required": true,

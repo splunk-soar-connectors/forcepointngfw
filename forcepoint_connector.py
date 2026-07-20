@@ -1,6 +1,6 @@
 # File: forcepoint_connector.py
 #
-# Copyright Martin Ohl 2021-2025
+# Copyright Martin Ohl 2021-2026
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -45,9 +45,9 @@ class ForcepointConnector(BaseConnector):
         self._force_port = config.get("base_port")
         self._force_version = config.get("base_version")
         self._force_auth_key = config.get("auth_key")
-        self._verify = config.get(phantom.APP_JSON_VERIFY, False)
+        self._verify = config.get(phantom.APP_JSON_VERIFY, True)
 
-        self.url = "http://" + self._force_url + ":" + self._force_port + "/" + self._force_version
+        self.url = "https://" + self._force_url + ":" + self._force_port + "/" + self._force_version
 
         session = requests.session()
 

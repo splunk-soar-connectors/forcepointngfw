@@ -1,7 +1,7 @@
 # Forcepoint
 
 Publisher: Martin Ohl <br>
-Connector Version: 2.0.0 <br>
+Connector Version: 2.0.1 <br>
 Product Vendor: Forcepoint <br>
 Product Name: Forcepoint NGFW <br>
 Minimum Product Version: 5.5.0
